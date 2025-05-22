@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <script>
+    function submit(){
+      var logg = document.getElementById('login').value;
+      var pass = document.getElementById('senha').value;
+      google.script.run.enterUser(logg, pass);
+    }
+  </script>
+  <body>
+    Login <input type="text"     id="login"> <br>
+    Senha <input type="password" id="senha"> <br><br>
+    <input type="button" value="Entrar" onclick="submit();">
+    <input type="button" value="Fechar" onclick="google.script.host.close();">
+  </body>
+</html>
