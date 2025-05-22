@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style> table, th, td, tr{
+      border: 1px solid black;
+      border-collapse: collapse;
+    } 
+    </style>
+  </head>
+  <body>
+    <h2> Nova solicitação na <a href= <?= link ?> > PLANILHA </a></h2>
+    <table>
+      <tr> <th bgcolor="#F8C471 "><p> <font size="2"> SOLICITAÇÃO PARA FATURAMENTO </font></p></th> </tr>
+      <? for(let i = 0; i < dados.length; i++){ ?>
+        <tr>
+          <td bgcolor=<? var r=i%2;if(r==0){ ?> "#FAD7A0"  <? }else{ ?> "#FEF5E7" <? }; ?>><b> &nbsp;&nbsp;&nbsp;&nbsp; <?=cab[i]?> : </b> <?=dados[i]?> &nbsp;&nbsp;&nbsp;&nbsp; </td>
+        </tr>
+      <? } ?>
+    </table>
+  </body>
+</html>
