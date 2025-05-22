@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+      }
+      th, td {
+        padding: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <table id="data-table">
+      <tr bgcolor="#2E2E2E">
+        <th><font color="white">ID            </font></th>
+        <th><font color="white">TIPO          </font></th>
+        <th><font color="white">SOLICITANTE   </font></th>
+        <th><font color="white">AUTORIZADO POR</font></th>
+        <th><font color="white">NOTA FISCAL   </font></th>
+        <th><font color="white">MOTIVO        </font></th>
+        <th><font color="white">AUTORIZAÇÃO   </font></th>
+        <th><font color="white">OBSERVAÇÃO    </font></th>
+      </tr>
+    </table>
+
+    <script>
+      google.script.run.withSuccessHandler(function(data){
+        var tabela = document.getElementById("data-table");
+        tabela.setAttribute("border", "1");
+        for (var i = 0; i < data.length; i++){
+          var row = tabela.insertRow();
+          for (var j = 0; j < 8; j++){
+            var cell = row.insertCell(j);
+            cell.setAttribute("class", "center-text");
+            switch (j){
+              case 6:
+                var radioButton = document.createElement("input");
+                radioButton.type = "radio";
+                radioButton.id = "radio_id";
+                radioButton.name = "ciencia";
+                cell.appendChild(radioButton);
+                break;
+              case 7:
+                var textField = document.createElement("input");
+                textField.type ="text";
+                textField.name = "observacao";
+                cell.appendChild(textField);
+                break;
+              default:
+                cell.innerHTML = data[i][j];
+                break;
+            }
+          }
+
+          if (i%2==0){
+            row.style.backgroundColor = "#FFDEA8";
+          } else {
+            row.style.backgroundColor = "#FEF5E7";
+          }
+        }
+      }).showData();
+
+      function allow(){
+        var radioButtons = document.getElementsByName("ciencia");
+        var textFields = document.getElementsByName("observacao");
+        var txt;
+        var id;
+        for (var i = 0; i < radioButtons.length; i++) {
+          if (radioButtons[i].checked) {
+            var row = radioButtons[i].parentNode.parentNode;
+            id = row.cells[0].innerHTML.trim();
+            break;
+          }
+        }
+        for (var j = 0; j < textFields.length; j++){
+          if (textFields[j].value != ""){
+            txt = textFields[j].value.trim();
+            break;
+          }
+        }
+        if (id) {
+         google.script.run.isAllowed(id,txt);
+        } else {
+          alert("Por favor selecione uma opção antes de clicar em 'Autorizar'.");
+        }
+      }
+
+      function notAllow(){
+        var radioButtons = document.getElementsByName("ciencia");
+        var textFields = document.getElementsByName("observacao");
+        var txt;
+        var id;
+        for (var i = 0; i < radioButtons.length; i++) {
+          if (radioButtons[i].checked) {
+            var row = radioButtons[i].parentNode.parentNode;
+            id = row.cells[0].innerHTML.trim();
+            break;
+          }
+        }
+        for (var j = 0; j < textFields.length; j++){
+          if (textFields[j].value != ""){
+            txt = textFields[j].value.trim();
+            break;
+          }
+        }
+        if (id) {
+         google.script.run.notAllowed(id,txt);
+        } else {
+          alert("Por favor selecione uma opção antes de clicar em 'Autorizar'.");
+        }
+      }
+    </script>
+    <br>
+    <footer>
+      <div>
+    <input type="button" value="Autorizar"     onclick="allow();"                    style="background-color:#717171;color:#fff;font-size:14px;padding:8px16px;border:none;cursor:pointer;">
+    <input type="button" value="Não Autorizar" onclick="notAllow();"                 style="background-color:#717171;color:#fff;font-size:14px;padding:8px16px;border:none;cursor:pointer;"> <br><br>
+    <input type="button" value="Fechar"        onclick="google.script.host.close();" style="background-color:#404040;color:#fff;font-size:14px;padding:8px16px;border:none;cursor:pointer;">
+  </div>
+</footer>
+  </body>
+</html>
